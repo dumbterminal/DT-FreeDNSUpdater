@@ -1,0 +1,6 @@
+# $HOME/config/myfreednsupdaterrc
+#
+## Domain - enter domain to be updated below
+DOMAIN="CHANGEME"
+# Hashed Login / Password - enter the freedns hashed login password below
+HASHEDLOGPASS="CHECKME"
