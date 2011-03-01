@@ -3,7 +3,7 @@
 # Simple DNS Updater for FreeDNS
 #  use script to update dynamic-dns from FreeDNS http://freedns.afraid.org/
 # by: Mike Redd
-VER=0.1.1
+VER=0.1.2
 
 #            DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
 #                    Version 2, December 2004
@@ -42,22 +42,34 @@ YOURIP="$(wget -q -O - api.myiptest.com | awk -F"\"" '{print $4}')"
 # file to save ip to for checking
 _MYIP="/var/log/myip.txt"
 # run
-echo -e "DT FreeDNSUpdater $VER"
-echo -e "Your IP is $YOURIP"
+if [ "$DOMAIN" == "CHANGEME" ];then
+    echo -e " - DT FreeDNSUpdater V.$VER -"
+    echo " Please Edit dtfreednsypdaterrc With Your Domain and Restart App"
+    exit
+elif [ "$LOGPASS" == "CHANGEME" ];then
+    echo -e " - DT FreeDNSUpdater V.$VER -"
+    echo " Please Edit dtfreednsypdaterrc With Your Hashed Log Pass and Restart App"
+    exit
+else
+echo -e " - DT FreeDNSUpdater V.$VER -"
+echo -e " Your IP is $YOURIP"
 #
 MYIP="$(cat $_MYIP)"
-echo -e "$DOMAIN has IP $MYIP"
+echo -e " $DOMAIN IP $MYIP"
 sleep 1
 if [ "$MYIP" != "$YOURIP" ];then
-    echo -e "$YOURIP" > $_MYIP
-    echo "DNS Needs to be Updated."
-    echo "starting update now..."
+    echo -e " $YOURIP" > $_MYIP
+    echo " DNS Needs to be Updated."
+    echo " Starting Update Now..."
     sleep 1
     wget -q --read-timeout=0.0 --waitretry=5 --tries=400 --background http://freedns.afraid.org/dynamic/update.php?$LOGPASS
     sleep 1
-    echo "dns updated..."
-    echo -e "$DOMAIN has $MYIP)"
+    echo " DNS Updated..."
+    echo -e " $DOMAIN has $MYIP)"
 else
-    echo "DNS does not need an update."
+    sleep 1
+    echo
+    echo " Your DNS does not need an update."
+    echo
 fi
-
+fi
