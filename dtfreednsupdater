@@ -2,9 +2,15 @@
 # D T FreeDNSUpdater
 # Simple DNS Updater for FreeDNS
 #  use script to update dynamic-dns from FreeDNS http://freedns.afraid.org/
-# by: Mike Redd
 VER=0.1.2
-
+# http://dt.tehspork.com
+# Dumb Terminal
+# Smaller than Life Projects
+# Main Page: http://dt.tehspork.com
+# Git Repo: https://github.com/dumbterminal/
+# By: MikereDD & veekahn
+# email: dumbterminal -at- tehspork.com
+#
 #            DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
 #                    Version 2, December 2004
 #
