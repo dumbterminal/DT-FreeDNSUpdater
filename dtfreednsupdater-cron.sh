@@ -1,6 +1,6 @@
 #!/bin/bash
 # Cron script to run myfreednsupdater
- by: Mike Redd
+# by: Mike Redd
 
 ## Uncomment to use
 # Daily
