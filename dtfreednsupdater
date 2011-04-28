@@ -2,15 +2,8 @@
 # D T FreeDNSUpdater
 # Simple DNS Updater for FreeDNS
 #  use script to update dynamic-dns from FreeDNS http://freedns.afraid.org/
-VER=0.1.2
-# http://dt.tehspork.com
-# Dumb Terminal
-# Smaller than Life Projects
-# Main Page: http://dt.tehspork.com
-# Git Repo: https://github.com/dumbterminal/
-# By: MikereDD & veekahn
-# email: dumbterminal -at- tehspork.com
-#
+# by: Mike Redd
+VER=0.1.4
 #            DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
 #                    Version 2, December 2004
 #
@@ -36,23 +29,28 @@ if [[ -z $( type -p wget ) ]]; then
 fi
 
 # Variables
+USER="/home/mredd"
 # RC File - edit with domain and hashed login / pass
-DTFREEDNSUPDATERRC="$HOME/.config/dtfreednsupdaterrc"
+DTFREEDNSUPDATERRC="$USER/.config/dtfreednsupdaterrc"
 # Domain - Grabbed from rc file | The Domain you want to update
-DOMAIN=`cat $DTFREEDNSUPDATERRC|grep DOMAIN|cut -f 2 -d '"'`
+DOMAINONE=`cat $DTFREEDNSUPDATERRC|grep DOMAINONE|cut -f 2 -d '"'`
 # Log/Pass - Grabbed from rc file. | The hashed login / password provided by FreeDNS
-LOGPASS=`cat $DTFREEDNSUPDATERRC|grep LOGPASS|cut -f 2 -d '"'`
+LOGPASSONE=`cat $DTFREEDNSUPDATERRC|grep LOGPASSONE|cut -f 2 -d '"'`
+# Domain - Grabbed from rc file | The Domain you want to update
+DOMAINTWO=`cat $DTFREEDNSUPDATERRC|grep DOMAINTWO|cut -f 2 -d '"'`
+# Log/Pass - Grabbed from rc file. | The hashed login / password provided by FreeDNS
+LOGPASSTWO=`cat $DTFREEDNSUPDATERRC|grep LOGPASSTWO|cut -f 2 -d '"'`
 
 # find your ip
 YOURIP="$(wget -q -O - api.myiptest.com | awk -F"\"" '{print $4}')"
 # file to save ip to for checking
-_MYIP="/var/log/myip.txt"
+LOGIP="$USER/tmp/log/myip.txt"
 # run
-if [ "$DOMAIN" == "CHANGEME" ];then
+if [ "$DOMAINONE" == "CHANGEME" ];then
     echo -e " - DT FreeDNSUpdater V.$VER -"
     echo " Please Edit dtfreednsypdaterrc With Your Domain and Restart App"
     exit
-elif [ "$LOGPASS" == "CHANGEME" ];then
+elif [ "$LOGPASSONE" == "CHANGEME" ];then
     echo -e " - DT FreeDNSUpdater V.$VER -"
     echo " Please Edit dtfreednsypdaterrc With Your Hashed Log Pass and Restart App"
     exit
@@ -60,18 +58,55 @@ else
 echo -e " - DT FreeDNSUpdater V.$VER -"
 echo -e " Your IP is $YOURIP"
 #
-MYIP="$(cat $_MYIP)"
-echo -e " $DOMAIN IP $MYIP"
+MYIP="$(cat $LOGIP|tr -d " ")"
+echo -e " $DOMAINONE IP $MYIP"
 sleep 1
 if [ "$MYIP" != "$YOURIP" ];then
-    echo -e " $YOURIP" > $_MYIP
+    echo -e " $YOURIP" > $LOGIP
     echo " DNS Needs to be Updated."
     echo " Starting Update Now..."
     sleep 1
-    wget -q --read-timeout=0.0 --waitretry=5 --tries=400 --background http://freedns.afraid.org/dynamic/update.php?$LOGPASS
+    wget -q --read-timeout=0.0 --waitretry=5 --tries=400 --background http://freedns.afraid.org/dynamic/update.php?$LOGPASSONE
     sleep 1
     echo " DNS Updated..."
-    echo -e " $DOMAIN has $MYIP)"
+    echo -e " $DOMAIN has $MYIP"
+else
+    sleep 1
+    echo
+    echo " Your DNS does not need an update."
+    echo
+fi
+fi
+
+# find your ip
+YOURIP="$(wget -q -O - api.myiptest.com | awk -F"\"" '{print $4}')"
+# file to save ip to for checking
+LOGIP="/var/log/myip.txt"
+# run
+if [ "$DOMAINTWO" == "CHANGEME" ];then
+    echo -e " - DT FreeDNSUpdater V.$VER -"
+    echo " Please Edit dtfreednsypdaterrc With Your Domain and Restart App"
+    exit
+elif [ "$LOGPASSTWO" == "CHANGEME" ];then
+    echo -e " - DT FreeDNSUpdater V.$VER -"
+    echo " Please Edit dtfreednsypdaterrc With Your Hashed Log Pass and Restart App"
+    exit
+else
+echo -e " - DT FreeDNSUpdater V.$VER -"
+echo -e " Your IP is $YOURIP"
+#
+#MYIP="$(cat $LOGIP|tr -d " ")"
+echo -e " $DOMAINTWO IP $MYIP"
+sleep 1
+if [ "$MYIP" != "$YOURIP" ];then
+    echo -e " $YOURIP" > $LOGIP
+    echo " DNS Needs to be Updated."
+    echo " Starting Update Now..."
+    sleep 1
+    wget -q --read-timeout=0.0 --waitretry=5 --tries=400 --background http://freedns.afraid.org/dynamic/update.php?$LOGPASSTWO
+    sleep 1
+    echo " DNS Updated..."
+    echo -e " $DOMAINTWO has $MYIP"
 else
     sleep 1
     echo
