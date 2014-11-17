@@ -8,3 +8,11 @@ HASHEDLOGPASSONE="CHANGEME"
 DOMAINTWO="CHANGEME"
 # Hashed Login / Password - enter the freedns hashed login password below
 HASHEDLOGPASSTWO="CHANGEME"
+## Domain Three - enter domain to be updated below
+DOMAINTHREE="CHANGEME"
+# Hashed Login / Password - enter the freedns hashed login password below
+HASHEDLOGPASSTHREE="CHANGEME"
+## Domain Four - enter domain to be updated below
+DOMAINFOUR="CHANGEME"
+# Hashed Login / Password - enter the freedns hashed login password below
+HASHEDLOGPASSFOUR="CHANGEME"
